@@ -1,4 +1,4 @@
-from utils.py import gcd
+from utils import gcd
 class Rational:
     def __init__(self,numerator,denominator=1):
         if(denominator==0): raise ZeroDivisionError("Unallowed. Please add catch in your code")
