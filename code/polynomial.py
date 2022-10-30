@@ -3,7 +3,13 @@ from utils import max
 class Poly:
 	"""A polynomial class."""
 	def __init__(self,coefficients):
-		self.cofs=coefficients
+		newcofs=[]
+		foundNotZero=False
+		for i in coefficients:
+			if(i==0 and not foundNotZero):continue
+			else:foundNotZero=True
+			newcofs.append(i)
+		self.cofs=newcofs
 	def __repr__(self):
 		"""More of a placeholder for a more complicated polynomial "render"."""
 		return(str(self.cofs))
@@ -35,6 +41,23 @@ class Poly:
 		for i in range(len(self_)):
 			newPoly.append(self_[i]+oth_[i])
 		return(Poly(newPoly[::-1]))
-a=Poly([1,2,3,4])
-b=Poly([1,2,3,4])
-print(1+a+b)
+	def __sub__(self,oth):
+		"""Subtraction for the loss!"""
+		if(type(oth)in[int,Rational]):oth=Poly([oth])
+		if(type(oth)!=Poly):raise Exception
+		newPoly=[]
+		self_=self.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(self.cofs))
+		oth_=oth.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(oth.cofs))
+		for i in range(len(self_)):
+			newPoly.append(self_[i]-oth_[i])
+		return(Poly(newPoly[::-1]))
+	def __rsub__(self,oth):
+		"""It's the same as addition, just minus. And order matters here."""
+		if(type(oth)in[int,Rational]):oth=Poly([oth])
+		if(type(oth)!=Poly):raise Exception
+		newPoly=[]
+		self_=self.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(self.cofs))
+		oth_=oth.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(oth.cofs))
+		for i in range(len(self_)):
+			newPoly.append(oth_[i]-self_[i])
+		return(Poly(newPoly[::-1]))
