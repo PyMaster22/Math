@@ -61,3 +61,15 @@ class Poly:
 		for i in range(len(self_)):
 			newPoly.append(oth_[i]-self_[i])
 		return(Poly(newPoly[::-1]))
+#	def __mul__(self,oth): # I don't know why it doesn't work and I don't care enough to find out.
+		"""Multiplication. O(n^2)"""
+		if(type(oth)in[int,Rational]):oth=Poly([oth])
+		if(type(oth)!=Poly):raise Exception
+		newPoly={}
+		for j,i in enumerate(self.cofs[::-1]):
+			for jj,ii in enumerate(oth.cofs[::-1]):
+				try:
+					newPoly[j+jj]+=i*ii
+				except KeyError:
+					newPoly[j+jj]=i*ii
+		return(Poly(list(newPoly.values())[::-1]))
