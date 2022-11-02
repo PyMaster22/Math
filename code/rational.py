@@ -56,7 +56,15 @@ class Rational:
 		return(oth*((self/oth)-int(self/oth)))
 	def __pow__(self,oth):
 		"""Reverse is just non integer powers."""
-		if(type(oth)!=int):raise Exception("I'm not gonna do this!")
+		if(type(oth)!=int):raise ZeroDivisionError("Not actually division by zero.")
 		return(Rational(self.num**oth,self.denom**oth))
-a=Rational(3,4)
-print(a**3)
+	def __eq__(self,oth):
+		"""A slightly easier way of checking equivilance"""
+		return((self-oth).num==0)
+	def __gt__(self,oth):
+		"""Leveraging the existence of ints and their use here."""
+		return((self-oth).num>0)
+	def __gte__(self,oth):
+		return((self-oth).num>=0)
+	def __lte__(self,oth):
+		return((self-oth).num<=0)

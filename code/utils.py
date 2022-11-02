@@ -26,7 +26,7 @@ def summate(func,lower,upper): #summate=lambda f,l,u:sum([f(i) for i in range(l,
 		s+=func(i)
 	return(s)
 def product(func,lower,upper): #product=lambda f,l,u:[x:=x*f(i) for i in range(l,u+1)][-1]
-	p=0
+	p=1
 	for i in range(lower,upper+1):
 		p*=func(i)
 	return(p)
@@ -35,3 +35,10 @@ def integrate(func,lower,upper,density=10**5): #integrate=lambda f,l,u,d=10**5:s
 	for i in range(lower,upper*density):
 		s+=func(i/density)/density
 	return(s)
+def sqrt(n,iter=100): # Converges better for higher values of n.
+	n1=n
+	f=lambda x:(x**2)-n1
+	fp=lambda x:2*x
+	for i in range(iter):
+		n=n-f(n)/fp(n)
+	return(n)

@@ -2,10 +2,10 @@ from rational import Rational
 from utils import max
 class Poly:
 	"""A polynomial class."""
-	def __init__(self,coefficients):
+	def __init__(self,coeffs):
 		newcofs=[]
 		foundNotZero=False
-		for i in coefficients:
+		for i in coeffs:
 			if(i==0 and not foundNotZero):continue
 			else:foundNotZero=True
 			newcofs.append(i)
@@ -13,6 +13,8 @@ class Poly:
 	def __repr__(self):
 		"""More of a placeholder for a more complicated polynomial "render"."""
 		return(str(self.cofs))
+	def __str__(self):
+		return(self.__repr__())
 	def deriv(self):
 		"""Takes the derivative of the polynomial and outputs a new polynomial"""
 		newPoly=[]
@@ -61,7 +63,7 @@ class Poly:
 		for i in range(len(self_)):
 			newPoly.append(oth_[i]-self_[i])
 		return(Poly(newPoly[::-1]))
-#	def __mul__(self,oth): # I don't know why it doesn't work and I don't care enough to find out.
+	def __mul__(self,oth):
 		"""Multiplication. O(n^2)"""
 		if(type(oth)in[int,Rational]):oth=Poly([oth])
 		if(type(oth)!=Poly):raise Exception
@@ -73,3 +75,23 @@ class Poly:
 				except KeyError:
 					newPoly[j+jj]=i*ii
 		return(Poly(list(newPoly.values())[::-1]))
+	def __rmul__(self,oth):
+		"""Found another implementation for this entire idea while looking for help on the previous operation :>"""
+		if(type(oth)in[int,Rational]):oth=Poly([oth])
+		if(type(oth)!=Poly):raise Exception
+		newPoly={}
+		for j,i in enumerate(self.cofs[::-1]):
+			for jj,ii in enumerate(oth.cofs[::-1]):
+				try:
+					newPoly[j+jj]+=i*ii
+				except KeyError:
+					newPoly[j+jj]=i*ii
+		return(Poly(list(newPoly.values())[::-1]))
+	def __eq__(self,oth):
+		"""Can't think of an easier way."""
+		if(type(oth)in[int,Rational]):oth=Poly([oth])
+		self_=self.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(self.cofs))
+		oth_=oth.cofs[::-1]+[0]*(max(len(self.cofs),len(oth.cofs))-len(oth.cofs))
+		for i in range(len(self_)):
+			if(self_[i]!=oth_[i]):return(False)
+		return(True)
