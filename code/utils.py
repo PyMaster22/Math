@@ -35,10 +35,22 @@ def integrate(func,lower,upper,density=10**5): #integrate=lambda f,l,u,d=10**5:s
 	for i in range(lower,upper*density):
 		s+=func(i/density)/density
 	return(s)
-def sqrt(n,iter=100): # Converges better for higher values of n.
+def sqrt(n,iter=100): # Converges better for higher values of n, unless n is Rational (iter size LOW for Rational)
 	n1=n
 	f=lambda x:(x**2)-n1
 	fp=lambda x:2*x
 	for i in range(iter):
 		n=n-f(n)/fp(n)
 	return(n)
+def xrange(start,end,step): # Extended range function for ints,floats, and Rationals. (More may be added)
+	newList=[]
+	if(step==0 or type(step)in[complex]):raise Exception("Invalid step size")
+	if(step>0):
+		while(start<=end):
+			newList.append(start)
+			start+=step
+	if(step<0):
+		while(start>=end):
+			newList.append(start)
+			start+=step
+	return(newList)

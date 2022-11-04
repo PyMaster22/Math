@@ -7,14 +7,26 @@ class Rational:
 		gcd_=gcd(self.num,self.denom)
 		self.num//=gcd_
 		self.denom//=gcd_
+	@staticmethod
+	def toRat(oth):
+		if(type(oth)==Rational):return(oth)
+		if(type(oth)==int):return(Rational(oth))
+		if(type(oth)==float):
+			oth_=10**len(str(oth).split(".")[-1])
+			oth__=int(oth*oth_)
+			return(Rational(oth__,oth_))
 	def simplify(self):
 		gcd_=gcd(self.num,self.denom)
 		self.num//=gcd_
 		self.denom//=gcd_
 	def __repr__(self):
+		if(self.denom==1):return(str(self.num))
+		if(self.num==0):return("0")
 		return(str(self.num)+"/"+str(self.denom))
 	def __int__(self):
 		return(self.num//self.denom)
+	def __float__(self):
+		return(self.num/self.denom)
 	def __add__(self,oth):
 		"""(a/b)+(c/d)=(a*d+c*b)/(b*d) check it out!"""
 		if(type(oth)==int):oth=Rational(oth)
